@@ -12,6 +12,30 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_user"
         android:layout_width="match_parent"
-        tools:listitem="@layout/item_users"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/grey"
+        android:layout_marginTop="60dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_home_filled_24"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="70dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/person"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="160dp"
+            />
+
+    </LinearLayout>
 </LinearLayout>

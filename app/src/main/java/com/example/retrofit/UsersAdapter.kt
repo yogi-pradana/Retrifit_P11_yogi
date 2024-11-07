@@ -12,7 +12,7 @@ import com.example.retrofit.databinding.ItemUsersBinding
 typealias OnClickDisaster = (Data) -> Unit
 
 class UsersAdapter(
-    private val listUsers: List<Data>,
+    private var listUsers: List<Data>,
     private val onClickUser: (Data) -> Unit
 ) : RecyclerView.Adapter<UsersAdapter.ItemUsersViewHolder>() {
 
@@ -23,9 +23,9 @@ class UsersAdapter(
             with(binding) {
                 txtName.text = "${user.first_name} ${user.last_name}"
                 txtEmail.text = user.email
-                // Load avatar image using Glide or other library
                 Glide.with(imgPlaceholder.context).load(user.profileImage).into(imgPlaceholder)
 
+                // Set click listener pada item untuk memanggil onClickUser
                 root.setOnClickListener { onClickUser(user) }
             }
         }
@@ -36,11 +36,16 @@ class UsersAdapter(
         return ItemUsersViewHolder(binding)
     }
 
-    override fun getItemCount(): Int{
-        return listUsers.size
-    }
+    override fun getItemCount(): Int = listUsers.size
 
     override fun onBindViewHolder(holder: ItemUsersViewHolder, position: Int) {
         holder.bind(listUsers[position])
     }
+
+    // Fungsi untuk memperbarui data adapter
+    fun setData(newList: List<Data>) {
+        listUsers = newList
+        notifyDataSetChanged()
+    }
 }
+

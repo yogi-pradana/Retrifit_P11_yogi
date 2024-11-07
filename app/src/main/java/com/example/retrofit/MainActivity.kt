@@ -1,6 +1,6 @@
 package com.example.retrofit
 
-
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.materi.model.Data
 import com.example.materi.model.Users
 import com.example.materi.network.ApiClient
-import com.example.retrofit.UsersAdapter
 import com.example.retrofit.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,7 +29,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapterUser = UsersAdapter(emptyList()) { user ->
-            Toast.makeText(this, "Clicked on ${user.first_name}", Toast.LENGTH_SHORT).show()
+            // Intent untuk membuka DetailActivity
+            val intent = Intent(this, DetailActivity::class.java).apply {
+                putExtra("name", "${user.first_name} ${user.last_name}")
+                putExtra("email", user.email)
+                putExtra("profileImage", user.profileImage)
+            }
+            startActivity(intent)
         }
         binding.rvUser.apply {
             adapter = adapterUser
@@ -44,10 +49,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Users>, response: Response<Users>) {
                 if (response.isSuccessful) {
                     val userList = response.body()?.data ?: emptyList()
-                    adapterUser = UsersAdapter(userList) { user ->
-                        Toast.makeText(this@MainActivity, "Clicked on ${user.first_name}", Toast.LENGTH_SHORT).show()
-                    }
-                    binding.rvUser.adapter = adapterUser
+                    adapterUser.setData(userList) // Memperbarui data adapter
                 } else {
                     Toast.makeText(this@MainActivity, "Failed to retrieve data", Toast.LENGTH_SHORT).show()
                 }
